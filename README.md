@@ -71,6 +71,8 @@ mvn jetty:run -Pstandalone
 
 - same functionality as previous, minimal runtime, significantly faster startup, smaller footprint.
 
-`java -jar placeholder/examples/placeholder-app/target/placeholder-app-0.1.0-SNAPSHOT.jar`
+```
+java -jar placeholder/examples/placeholder-app/target/placeholder-app-0.1.0-SNAPSHOT.jar
+```
 
 - app url: `http://localhost:8080/survey/javaee/`
