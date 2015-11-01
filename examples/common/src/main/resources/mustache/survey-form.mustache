@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <title>'{{name}}' Survey</title>
+
+    <!-- Bootstrap -->
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #eee;
+        }
+
+        hr {
+            border-color: #ccc;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-offset-2 col-lg-8">
+            <header class="page-header">
+                <h1>{{name}}</h1>
+            </header>
+
+            <form method="post">
+                {{#questions}}
+                  <h3>{{text}}</h3>
+
+                  <!-- TODO M: Type! -->
+                {{#choices}}
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="{{questionId}}" value="{{choiceId}}">
+                          {{text}}
+                        </label>
+                    </div>
+                {{/choices}}
+                {{/questions}}
+                {{^questions}}
+                  <h3>No questions.</h3>
+                {{/questions}}
+
+                <hr/>
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input class="form-control input-default" type="text" placeholder="Your Name (optional)" id="name"
+                           name="name"/>
+                </div>
+
+                <hr/>
+                <button type="submit" class="btn btn-default">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

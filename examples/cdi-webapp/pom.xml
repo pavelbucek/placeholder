@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>javaone2015.placeholder</groupId>
+        <artifactId>placeholder-examples</artifactId>
+        <relativePath>../pom.xml</relativePath>
+        <version>0.1.0-SNAPSHOT</version>
+    </parent>
+
+    <groupId>javaone2015.placeholder.examples</groupId>
+    <artifactId>cdi-webapp</artifactId>
+    <packaging>war</packaging>
+
+    <build>
+        <finalName>cdi-webapp</finalName>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>javaone2015.placeholder.examples</groupId>
+            <artifactId>common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- Java EE -->
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Jersey & Tyrus -->
+        <dependency>
+            <groupId>org.glassfish.jersey.containers</groupId>
+            <artifactId>jersey-container-servlet</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.tyrus</groupId>
+            <artifactId>tyrus-container-servlet</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- MVC Support -->
+        <dependency>
+            <groupId>org.glassfish.jersey.ext</groupId>
+            <artifactId>jersey-mvc</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.ext</groupId>
+            <artifactId>jersey-mvc-mustache</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.glassfish.jersey.ext</groupId>
+                    <artifactId>jersey-mvc</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>servlet-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- JSON Support -->
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-json-jackson</artifactId>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <profiles>
+        <profile>
+            <id>standalone</id>
+            <dependencies>
+                <!-- Jersey & Tyrus -->
+                <dependency>
+                    <groupId>org.glassfish.jersey.containers</groupId>
+                    <artifactId>jersey-container-servlet</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>org.glassfish.tyrus</groupId>
+                    <artifactId>tyrus-container-servlet</artifactId>
+                    <scope>provided</scope>
+                </dependency>
+
+                <!-- Weld & Integration Modules -->
+                <dependency>
+                    <groupId>org.glassfish.jersey.ext.cdi</groupId>
+                    <artifactId>jersey-cdi1x-servlet</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>org.glassfish.tyrus</groupId>
+                    <artifactId>tyrus-container-glassfish-cdi</artifactId>
+                    <scope>provided</scope>
+                </dependency>
+
+                <!-- MVC Support -->
+                <dependency>
+                    <groupId>org.glassfish.jersey.ext</groupId>
+                    <artifactId>jersey-mvc</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>org.glassfish.jersey.ext</groupId>
+                    <artifactId>jersey-mvc-mustache</artifactId>
+                </dependency>
+
+                <!-- JSON Support -->
+                <dependency>
+                    <groupId>org.glassfish.jersey.media</groupId>
+                    <artifactId>jersey-media-json-jackson</artifactId>
+                </dependency>
+            </dependencies>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.eclipse.jetty</groupId>
+                        <artifactId>jetty-maven-plugin</artifactId>
+                        <inherited>true</inherited>
+                        <configuration>
+                            <contextXml>src/main/webapp/WEB-INF/jetty-context.xml</contextXml>
+                        </configuration>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.eclipse.jetty.cdi</groupId>
+                                <artifactId>cdi-servlet</artifactId>
+                                <version>${jetty.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.eclipse.jetty.cdi</groupId>
+                                <artifactId>cdi-websocket</artifactId>
+                                <version>${jetty.version}</version>
+                            </dependency>
+                        </dependencies>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>

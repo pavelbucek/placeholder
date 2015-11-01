@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <title>'{{name}}' Survey</title>
+
+    <!-- Bootstrap -->
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://code.jquery.com/ui/1.11.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+    <style>
+        {{#questions}}{{#choices}}
+        #{{choiceResultId}} .ui-progressbar-value {
+            background-color: #000
+        }
+        {{/choices}}{{/questions}}
+
+        .ui-progressbar-value {
+            transition: width 0.5s, background 0.5s ease;
+            -webkit-transition: width 0.5s;
+        }
+
+        body {
+            background-color: #eee;
+        }
+
+        hr {
+            border-color: #ccc;
+        }
+
+        .ui-progressbar {
+            position: relative;
+        }
+
+        .progress-label {
+            position: absolute;
+            left: 50%;
+            top: 4px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-offset-2 col-lg-8">
+            <header class="page-header">
+                <h1>{{name}}</h1>
+            </header>
+
+            {{#questions}}
+                <h3>{{text}}</h3>
+
+                {{#choices}}
+                    <div>
+                        {{text}}:
+                        <div id="{{choiceResultId}}" onmouseover="mouseOver('{{choiceResultId}}')"
+                             onmouseout="mouseOut()"><div id="{{choiceResultId}}label" class="progress-label"></div></div>
+                    </div>
+                {{/choices}}
+                {{^choices}}
+                    <div>
+                        No results.
+                    </div>
+                {{/choices}}
+            {{/questions}}
+            {{^questions}}
+              <h3>No questions.</h3>
+            {{/questions}}
+
+            {{#message}}
+                <hr/>
+                <strong>{{message}}</strong>
+            {{/message}}
+        </div>
+    </div>
+</div>
+
+<script language="javascript" type="text/javascript">
+
+    $(function () {
+        {{#questions}}{{#choices}}
+            $("#{{choiceResultId}}").progressbar({
+                value: false,
+                change: function () {
+                    $("#{{choiceResultId}}label").text($("#{{choiceResultId}}").progressbar("value") + " %");
+                }
+            });
+
+            $("#{{choiceResultId}}").progressbar("value", {{percentage}});
+        {{/choices}}{{/questions}}
+
+        websocket = new WebSocket(wsUri);
+
+        websocket.onopen = function (evt) {
+            console.log(evt.data);
+        };
+        websocket.onmessage = function (evt) {
+            console.log(evt.data);
+            lastData = JSON.parse(evt.data);
+            updateData(lastData);
+        };
+        websocket.onerror = function (evt) {
+            console.log(evt.data);
+        };
+        websocket.onclose = function (evt) {
+            console.log(evt.data);
+        }
+    });
+
+
+    var wsUri = "ws://"
+            + (document.location.hostname == "" ? "localhost" : document.location.hostname)
+            + ":" + (document.location.port == "" ? "8080" : document.location.port)
+            + window.location.pathname;
+    var websocket;
+
+    function updateData(data) {
+        var questions = data.questions;
+        for (var question in questions) {
+            if (questions.hasOwnProperty(question)) {
+                var choices = questions[question].choices;
+                for (var choice in choices) {
+                    if (choices.hasOwnProperty(choice)) {
+                        var percentage = round(choices[choice].percentage, 0);
+                        if (isNaN(percentage)) {
+                            percentage = 0;
+                        }
+                        $("#" + choices[choice].id).progressbar("value", percentage);
+                    }
+                }
+            }
+        }
+    }
+
+    function mouseOver(choiceResultId) {
+        websocket.send(choiceResultId);
+        // background: #cccccc url(images/ui-bg_highlight-soft_75_cccccc_1x100.png) 50% 50% repeat-x;
+        // #cccccc url(images/ui-bg_highlight-soft_75_cccccc_1x100.png)
+        $(".ui-widget-header").css("background", "#ED4337")
+    }
+
+    function mouseOut() {
+        websocket.send("");
+        $(".ui-widget-header").css("background", "#cccccc url(https://code.jquery.com/ui/1.11.4/themes/ui-lightness/images/ui-bg_gloss-wave_35_f6a828_500x100.png)")
+    }
+
+    function round(value, decimals) {
+        return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+    }
+
+</script>
+</body>
+</html>
