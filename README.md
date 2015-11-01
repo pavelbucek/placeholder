@@ -30,9 +30,11 @@ cd ..
 
 Checkout Placeholder + build:
 
-`git clone git clone git@github.com:pavelbucek/placeholder.git`
-`cd placeholder`
-`mvn clean install -Dmaven.test.skip`
+```
+git clone git clone git@github.com:pavelbucek/placeholder.git
+cd placeholder
+mvn clean install -Dmaven.test.skip
+```
 
 # Demos
 
