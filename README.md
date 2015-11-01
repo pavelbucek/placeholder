@@ -14,15 +14,19 @@ You'll need **Maven 3.3.3+** and **JDK 1.8+**.
 
 We made some modifications in Jersey and Tyrus, so you'll need to check them out and build them:
 
-`git clone git@github.com:pavelbucek/jersey-j1.git`
-`cd jersey-j1`
-`mvn clean install -Dmaven.test.skip`
-`cd ..`
+```
+git clone git@github.com:pavelbucek/jersey-j1.git
+cd jersey-j1
+mvn clean install -Dmaven.test.skip
+cd ..
+```
 
-`git clone git clone git@github.com:pavelbucek/tyrus-j1.git`
-`cd tyrus-j1`
-`mvn clean install -Dmaven.test.skip`
-`cd ..`
+```
+git clone git clone git@github.com:pavelbucek/tyrus-j1.git
+cd tyrus-j1
+mvn clean install -Dmaven.test.skip
+cd ..
+```
 
 Checkout Placeholder + build:
 
@@ -38,8 +42,10 @@ Assumption here is that you have already built the project.
 
 - simple functionality, just to show trivial solution (Java SE, no injection)
 
-`cd placeholder/examples/simple-webapp/`
-`mvn jetty:run`
+```
+cd placeholder/examples/simple-webapp/
+mvn jetty:run
+```
 
 - app runs on: `http://localhost:8080/survey/javaee/`
 
@@ -52,11 +58,12 @@ appserver; usually available on something like: `http://localhost:8080/cdi-webap
 
 - jetty version:
 
-`cd placeholder/examples/cdi-webapp/`
-`mvn jetty:run -Pstandalone`
+```
+cd placeholder/examples/cdi-webapp/
+mvn jetty:run -Pstandalone
+```
 
 - app url: `http://localhost:8080/survey/javaee/`
-
 
 ## placeholder
 
