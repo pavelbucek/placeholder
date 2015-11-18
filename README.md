@@ -22,7 +22,7 @@ cd ..
 ```
 
 ```
-git clone git clone git@github.com:pavelbucek/tyrus-j1.git
+git clone git@github.com:pavelbucek/tyrus-j1.git
 cd tyrus-j1
 mvn clean install -Dmaven.test.skip
 cd ..
@@ -31,7 +31,7 @@ cd ..
 Checkout Placeholder + build:
 
 ```
-git clone git clone git@github.com:pavelbucek/placeholder.git
+git clone git@github.com:pavelbucek/placeholder.git
 cd placeholder
 mvn clean install -Dmaven.test.skip
 ```
